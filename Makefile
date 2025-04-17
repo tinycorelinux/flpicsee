@@ -1,5 +1,5 @@
 #makefile for fltk program
-CXXFLAGS="-march=i486 -mtune=i686 -Os -pipe -fno-exceptions -fno-rtti"
+CXXFLAGS=-march=i486 -mtune=i686 -Os -pipe -fno-exceptions -fno-rtti
 PROG=flpicsee
 PROG_CAPS=FL-PicSee
 DESC="Picture Viewer"
@@ -13,9 +13,9 @@ BASEDIR=`pwd`
 #Standard Version: has right-click menu and multi-image paging. About 23.0K
 #Uses these #defines: (none) 
 all: 
-	gcc ${CXXFLAGS} `fltk-config --cxxflags` -c  ${PROG}.cpp
-	gcc `fltk-config --ldflags` -lfltk_images ${PROG}.o -o ${PROG}
-	strip ${PROG}
+	gcc ${CXXFLAGS} -I/usr/local/include -fvisibility-inlines-hidden -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_THREAD_SAFE -D_REENTRANT -c  ${PROG}.cpp
+	gcc -L/usr/local/lib -Wl,-rpath,/usr/local/lib -lfltk -lXcursor -lXext -lstdc++ -lpthread -lm -lX11 -lfltk_images ${PROG}.o -o ${PROG}
+	sstrip ${PROG}
 	sudo cp ${PROG} /usr/local/bin
 
 #Basic Version: no right-click menu, etc.  About 14.6K in TC 3.0
